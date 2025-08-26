@@ -10,7 +10,6 @@ def new_user():
         print("\n" * 20)
         new_user()
     else:
-        print(bids_log)
         max_bid = max(bids_log.values())
         winner = max(bids_log, key=bids_log.get)
         print(f"The winner is {winner} with a bid of ${max_bid}!")
