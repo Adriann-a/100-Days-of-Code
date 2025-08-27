@@ -1,0 +1,59 @@
+def add(n1, n2):
+    return n1 + n2
+
+def subtract(n1, n2):
+    return n1 - n2
+
+def multiply(n1, n2):
+    return n1 * n2
+
+def divide(n1, n2):
+    return n1 / n2
+
+operations = {
+    "+": add,
+    "-": subtract,
+    "*": multiply,
+    "/": divide,
+}
+
+# asking for numbers and operations:
+def calculation_start():
+    n1 = float(input("What's the first number?: "))
+    print("+\n-\n*\n/")
+    operator = input("Pick an operation: ")
+    while operator not in operations:
+        print("Not recognized value entered.")
+        operator = input("Pick an operation: ")
+    n2 = float(input("What's the next number?: "))
+
+    # performing the operation requested
+    result = float(operations[operator](n1,n2))
+    print(f"{n1} {operator} {n2} = {result}")
+    new_n1 = result
+
+    # asking if the calculation should carry on ('y') or be finished ('n')
+    carry_on = input(f"Type 'y' to continue calculating with {result}, or type 'n' to start a new calculation: ")
+
+    # preparing if for two options
+    if carry_on == "n":
+        calculation_start()
+    elif carry_on == "y":
+        while carry_on == "y":
+            print("+\n-\n*\n/")
+            operator = input("Pick an operation: ")
+            n2 = float(input("What's the next number?: "))
+
+            # performing the operation requested
+            result = float(operations[operator](new_n1, n2))
+            print(f"{new_n1} {operator} {n2} = {result}")
+            new_n1 = result
+
+            # asking if the calculation should carry on ('y') or be finished ('n')
+            carry_on = input(f"Type 'y' to continue calculating with {result}, or type 'n' to start a new calculation: ")
+
+    else:
+        print("Not recognized value entered.")
+        carry_on
+
+calculation_start()
