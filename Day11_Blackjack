@@ -1,0 +1,99 @@
+# talia kart (3 last 10s are jack, queen and king
+cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+import random
+start_game = input("Do you want to play Blackjack? Type 'y' to start the game. ")
+
+def score_comparison():
+    if user_score > 21 and computer_score <=21:
+        print(f"Your score is {user_score}. 😭 You lose 😭\nComputer score is {computer_score}.")
+        exit()
+    if computer_score > 21 and user_score <=21:
+        print(f"Computer's score is {computer_score}. 🙌 You win 🙌\nYour score is {user_score}.")
+        exit()
+    if user_score > computer_score:
+        print(f"Your score is !!! {user_score} !!!   🙌 You win 🙌\n Computer score is !!! {computer_score} !!!")
+        exit()
+    elif computer_score > user_score:
+        print(f"Your score is !!! {user_score} !!!   😭 You lose 😭\nComputer score is !!! {computer_score} !!!")
+        exit()
+    else:
+        print(f"Both scores are at !!! {user_score} !!! 🤝 It's a draw 🤝")
+        exit()
+
+
+def draw_a_card():
+    global user_cards, user_score
+    new_card = input("Do you want to get another card? Type 'y' to get a card. Type 'n' to pass. ")
+    if new_card == "y":
+        user_cards.append(random.choice(cards))
+        user_score = sum(user_cards)
+        print(f"Your final hand is: {user_cards}.")
+        print(f"Your final score is: {user_score}.")
+        #score_comparison() - deleting as score_comparison() ends a game before we get to <17
+        return "y"
+    elif new_card == "n":
+        #score_comparison()
+        return "n"
+    else:
+        print("Please provide correct value - 'y' to draw a card or 'n' to pass. ")
+        return draw_a_card()
+
+def draw_a_card_computer():
+    # if computer_score < 17, computer draws another card
+    global computer_cards, computer_score
+    computer_cards.append(random.choice(cards))
+    computer_score = sum(computer_cards)
+    if computer_score > 21 and 11 in computer_cards:
+        computer_score -= 10
+
+    # rozdanie kart
+if start_game == "y":
+    user_cards = random.choices(cards, k=2)
+    user_score = sum(user_cards)
+    print(f"Your cards: {user_cards}.")
+    print(f"Current score: {user_score}.")
+    computer_cards = random.choices(cards, k=2)
+    computer_score = sum(computer_cards)
+    print(f"Computer's first card: {computer_cards[0]}.")
+    # checking if any score is == 21
+    if user_score == 21:
+        print("Your score is !!! 21 !!!   🙌 You win 🙌")
+        exit()
+    elif computer_score == 21:
+        print("Computer's score is !!! 21 !!!   😭 You lose 😭")
+        exit()
+    # checking other scores
+    elif user_score > 21:
+        # if there is "11" in user_cards, we replace it with "1" (as Ace acts as 11 and 1) so I will deduct 10 from the score
+        if 11 in user_cards:
+            user_score -= 10
+            if user_score >21:
+                print(f"Your score is: {user_score}. 😭 You lose 😭")
+                exit()
+            elif user_score == 21:
+                print("Your score is !!! 21 !!!   🙌 You win 🙌")
+                exit()
+            else:
+                print(f"Ace value changed from '11' to '1'. Current score: {user_score}.")
+                draw_a_card()
+    elif user_score <21:
+        draw_a_card()
+        if user_score > 21:
+            if 11 in user_cards:
+                user_score -= 10
+                if user_score > 21:
+                    print(f"Your score is: {user_score}. 😭 You lose 😭")
+                    exit()
+                elif user_score == 21:
+                    print("Your score is !!! 21 !!!   🙌 You win 🙌")
+                    exit()
+                else:
+                    print(f"Your final score: {user_score}.")
+        elif user_score == 21:
+            print("Your score is !!! 21 !!!   🙌 You win 🙌")
+            exit()
+    # checking if computer score is < 17 -> if so, computer draws a card
+    while computer_score < 17:
+        draw_a_card_computer()
+
+    score_comparison()
