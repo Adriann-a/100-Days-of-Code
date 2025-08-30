@@ -1,0 +1,46 @@
+import random
+
+def play_game():
+    print("Welcome to the Number Guessing Game!\nI am thinking of a number between 1-100.")
+    # choosing random number
+    number = int(random.randint(1,100))
+
+    # making a guess
+    def making_a_guess(attempts):
+        while attempts > 0:
+            guess = int(input("\nMake a guess: "))
+            if guess > number:
+                print("Too high.\nGuess again.")
+                attempts -= 1
+                print(f"You have {attempts} remaining attempts to guess the number.")
+            elif guess < number:
+                print("Too low.\nGuess again.")
+                attempts -= 1
+                print(f"You have {attempts} remaining attempts to guess the number.")
+            else: # guess == number
+                print("💫You got this!💫")
+                new_game = input("Do you want to play again? Type 'y' to restart or 'n' to exit. ")
+                if new_game == 'y':
+                    play_game()
+                else:
+                    exit()
+        if attempts == 0:
+            print(f"😢 You've run out of guesses. The number was {number}.")
+            new_game = input("Do you want to play again? Type 'y' to restart or 'n' to exit. ")
+            if new_game == 'y':
+                play_game()
+            else:
+                exit()
+
+    # choosing level
+    level = input("Choose a difficulty level. Type 'easy' or 'hard': ")
+    if level == "easy":
+        attempts = 10
+        print(f"You have {attempts} remaining attempts to guess the number.")
+        making_a_guess(attempts)
+    if level == "hard":
+        attempts = 5
+        print(f"You have {attempts} remaining attempts to guess the number.")
+        making_a_guess(attempts)
+
+play_game()
