@@ -1,0 +1,42 @@
+import random
+import art
+import game_data
+print(art.logo)
+
+# condition based on which the while loop will run
+game_should_continue = True
+
+# score variable
+score = 0
+
+# two random objects
+A, B = random.sample(game_data.data, 2)
+
+# while loop that will continue till game_should_continue = True
+while game_should_continue == True:
+    # print two object for a user to guess
+    print(f"A: {A['name']}, {A['description']}, from {A['country']}.")
+    print(art.vs)
+    print(f"B: {B['name']}, {B['description']}, from {B['country']}.")
+    # compare the number of followers
+    A_followers = int(A['follower_count'])
+    B_followers = int(B['follower_count'])
+    correct_answer = "A" if A_followers > B_followers else "B"
+    user_answer = input("\nWho has more followers? Type 'A' or 'B': ")
+
+    # compare users' input with correct_answer
+    if user_answer == correct_answer:
+        score += 1
+        print(f"You're right! Current score: {score}.\n")
+        if correct_answer == "A":
+            winner = A
+        else:
+            winner = B
+        A = winner
+        B = random.choice(game_data.data)
+        while A==B:
+            B = random.choice(game_data.data)
+    else:
+    # else for incorrect answer
+        print(f"Sorry, that's wrong. Final score: {score}.")
+        game_should_continue = False
